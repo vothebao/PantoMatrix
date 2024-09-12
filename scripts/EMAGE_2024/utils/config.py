@@ -84,7 +84,7 @@ def parse_args():
     parser.add("--ori_joints", default="spine_neck_141", type=str)
     parser.add("--tar_joints", default="spine_neck_141", type=str)
     parser.add("--training_speakers", default=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30], type=int, nargs="*")
-    #parser.add("--pose_version", default="spine_neck_141", type=str)
+    parser.add("--pose_version", default="beat", type=str)
     parser.add("--new_cache", default=True, type=str2bool)
     parser.add("--beat_align", default=True, type=str2bool)
     parser.add("--cache_only", default=False, type=str2bool)
