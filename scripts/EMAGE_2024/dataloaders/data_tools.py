@@ -27,6 +27,8 @@ beat_joints = {
         'LShoulder':    [3,114], 
         'LArm':         [3,117],
         'LArm1':        [3,120],
+        'Head':         [3,27],
+        'HeadEnd':      [3,30],
     },
     'hand': {
         'RHand':        [3,42],    
@@ -93,8 +95,7 @@ beat_joints = {
         'LToeBaseEnd':  [3,228],
     },
     'face': {
-        'Head':         [3,27],
-        'HeadEnd':      [3,30],
+
     }
 }
 
@@ -107,6 +108,8 @@ beat_full = {
         'Spine3':       3,
         'Neck':         3,
         'Neck1':        3,
+        'Head':         3,
+        'HeadEnd':      3,
         'RShoulder':    3, 
         'RArm':         3,
         'RArm1':        3,
@@ -179,8 +182,6 @@ beat_full = {
         'LToeBaseEnd':  3,
     },
     'face': {
-        'Head':         3,
-        'HeadEnd':      3,
     }
 }
 # pose version fpsxx_trinity/japanese_joints(_xxx)
@@ -285,12 +286,15 @@ joints_list = {
         'Spine3':       [3,18],
         'Neck':         [3,21],
         'Neck1':        [3,24],
+        'Head':         [3,27],
+        'HeadEnd':      [3,30],
         'RShoulder':    [3,33], 
         'RArm':         [3,36],
         'RArm1':        [3,39],
         'LShoulder':    [3,114], 
         'LArm':         [3,117],
         'LArm1':        [3,120],
+
     },
     
     'skeleton_joint_hand': {
@@ -360,8 +364,7 @@ joints_list = {
     },
 
     'skeleton_joint_face': {
-        'Head':         [3,27],
-        'HeadEnd':      [3,30],
+
     },
 
     'skeleton_upper': {
@@ -372,6 +375,8 @@ joints_list = {
         'Spine3':       3,
         'Neck':         3,
         'Neck1':        3,
+        'Head':         3,
+        'HeadEnd':      3,
         'RShoulder':    3, 
         'RArm':         3,
         'RArm1':        3,
@@ -447,8 +452,6 @@ joints_list = {
     },
 
     'skeleton_face': {
-        'Head':         3,
-        'HeadEnd':      3,
     },
 
     "trinity_joints":{
