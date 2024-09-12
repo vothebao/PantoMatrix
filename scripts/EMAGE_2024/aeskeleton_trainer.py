@@ -194,9 +194,8 @@ class CustomTrainer(train.BaseTrainer):
 
                 for i in range(tar_pose.shape[1]//(self.pose_length)):
                     tar_pose_new = tar_pose[:,i*(self.pose_length):i*(self.pose_length)+self.pose_length,:]
-                    poses_feat, pose_mu, pose_logvar, recon_data = \
-                self.model(**dict(pre_poses=None, poses=tar_pose_new))
-                    out_sub = (recon_data.cpu().numpy().reshape(-1, self.pose_dims) * self.std_pose) + self.mean_pose
+                    recon_data = self.model(tar_pose_new)
+                    out_sub = (recon_data['rec_pose'].cpu().numpy().reshape(-1, self.pose_dims) * self.std_pose) + self.mean_pose
                     if i != 0:
                         out_final = np.concatenate((out_final,out_sub), 0)
                     else:
