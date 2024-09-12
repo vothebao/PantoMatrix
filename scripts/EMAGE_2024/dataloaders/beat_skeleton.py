@@ -20,6 +20,7 @@ from sklearn.preprocessing import normalize
 import scipy.io.wavfile
 from scipy import signal
 from .build_vocab import Vocab
+from .utils import rotation_conversions as rc
 
 
 class CustomDataset(Dataset):
@@ -170,13 +171,25 @@ class CustomDataset(Dataset):
             vid_each_file = []
             
             id_pose = pose_file.split("/")[-1][:-4] #1_wayne_0_1_1
+
+            ##----------Modified from BEAT_SEP.py of EMAGE---------------##
             logger.info(colored(f"# ---- Building cache for Pose   {id_pose} ---- #", "blue"))
             with open(pose_file, "r") as pose_data:
                 for j, line in enumerate(pose_data.readlines()):
-                    data = np.fromstring(line, dtype=float, sep=" ") # 1*27 e.g., 27 rotation 
-                    pose_each_file.append(data)
-            pose_each_file = np.array(pose_each_file) # n frames * 27
-
+                    if j < 431: continue     
+                    if j%stride != 0:continue
+                    data = np.fromstring(line, dtype=float, sep=" ")
+                    rot_data = rc.euler_angles_to_matrix(torch.from_numpy(np.deg2rad(data)).reshape(-1, self.joints,3), "XYZ")
+                    rot_data = rc.matrix_to_axis_angle(rot_data).reshape(-1, self.joints*3) 
+                    rot_data = rot_data.numpy() * self.joint_mask
+                        
+                    pose_each_file.append(rot_data)
+                    trans_each_file.append(data[:3])
+            pose_each_file = np.array(pose_each_file)
+            print("pose_each_file", pose_each_file.shape)
+            trans_each_file = np.array(trans_each_file)
+            print("trans_each_file", trans_each_file.shape)
+            ##-----------------------------------------------------------##
             if self.audio_rep is not None:
                 logger.info(f"# ---- Building cache for Audio  {id_pose} and Pose {id_pose} ---- #")
                 audio_file = pose_file.replace(self.pose_rep, self.audio_rep).replace("bvh", "npy")
@@ -469,6 +482,8 @@ class CustomDataset(Dataset):
             else:
                 tar_pose = torch.from_numpy(tar_pose).reshape((tar_pose.shape[0], -1)).float()
                 in_facial = torch.from_numpy(in_facial).reshape((in_facial.shape[0], -1)).float()
+
+            
             return {"pose":tar_pose, "audio":in_audio, "facial":in_facial, "word":in_word, "id":vid, "emo":emo, "sem":sem}
 
          
