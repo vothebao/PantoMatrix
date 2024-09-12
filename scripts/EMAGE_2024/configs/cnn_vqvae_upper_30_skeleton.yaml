@@ -46,7 +46,7 @@ stride: 20 #keep unchanged
 
 # facial_dims: 100
 facial_dims: 51 # change to work with ARKit(52-tongue=51)
-
+facial_rep: facial52
 ##-----Keep unchanged-------##
 word_index_num: 11195
 word_dims: 300
