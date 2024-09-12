@@ -51,22 +51,24 @@ class CustomDataset(Dataset):
         self.ori_length = self.pose_length
         self.alignment = [0,0] # for beat
 
+        self.ori_joint_list = joints_list[self.args.ori_joints]
+        self.tar_joint_list = joints_list[self.args.tar_joints]
         
-        ##----------------Copy from beat_sep_lower.py-----------##
-        # if 'smplx' in self.args.pose_rep:
+        ##----------------Modified from beat_sep_lower.py-----------##
+        # if 'bvh_rot' in self.args.pose_rep:
         #     self.joint_mask = np.zeros(len(list(self.ori_joint_list.keys()))*3)
         #     self.joints = len(list(self.tar_joint_list.keys()))  
         #     for joint_name in self.tar_joint_list:
         #         self.joint_mask[self.ori_joint_list[joint_name][1] - self.ori_joint_list[joint_name][0]:self.ori_joint_list[joint_name][1]] = 1
         # else:
-        #     self.joints = len(list(self.ori_joint_list.keys()))+1
-        #     self.joint_mask = np.zeros(self.joints*3)
-        #     for joint_name in self.tar_joint_list:
-        #         if joint_name == "Hips":
-        #             self.joint_mask[3:6] = 1
-        #         else:
-        #             self.joint_mask[self.ori_joint_list[joint_name][1] - self.ori_joint_list[joint_name][0]:self.ori_joint_list[joint_name][1]] = 1
-        ##----------------Copy from beat_sep_lower.py-----------##
+        self.joints = len(list(self.ori_joint_list.keys()))+1
+        self.joint_mask = np.zeros(self.joints*3)
+        for joint_name in self.tar_joint_list:
+            if joint_name == "Hips":
+                self.joint_mask[3:6] = 1
+            else:
+                self.joint_mask[self.ori_joint_list[joint_name][1] - self.ori_joint_list[joint_name][0]:self.ori_joint_list[joint_name][1]] = 1
+        ##-----------------------------------------------------##
         
         if loader_type == "train":
             self.data_dir = args.root_path + args.train_data_path
